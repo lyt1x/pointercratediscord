@@ -1,6 +1,6 @@
 # Pointercrate Discord Bot
 
-  ⌨ A Discord bot written with python that allows you to use pointercrate's information without using their site
+  ⌨ A Discord bot written in python that allows you to use pointercrate's information without using their site
 
 
 ## Example

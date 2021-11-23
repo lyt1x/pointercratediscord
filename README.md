@@ -4,4 +4,4 @@
 
 
 ## Example
-![gif](https://media.discordapp.net/attachments/906153509852958740/912829555100753950/2021-11-24_01-17-02_online-video-cutter.com.gif?width=954&height=537)
+![gif](https://user-images.githubusercontent.com/76453631/143138217-7adcf9a1-072d-41e0-a17c-6bf61d9d508f.gif)

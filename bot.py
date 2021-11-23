@@ -468,7 +468,7 @@ async def player(ctx, *, playerr=None):
                 hardest = 'None'
             dataa = f'''
         {ban}
-Name: {playerr}
+Player: {playerr}
 Country: {nationality}
 Demonlist rank: {rank}
 Demonlist score: {round(float(score),2)}

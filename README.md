@@ -14,7 +14,7 @@
   .top [after which place I should sent the top players] <br />
   .position [position on the demonlist] <br />
   .demon [demon name] <br />
-  .records <demon name>
+  .records [demon name]
   
 ## Contacts
   ⚠️ For any bugs or other stuff that should be changed DM me on Discord: **lyt1x#1309**

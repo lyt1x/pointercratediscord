@@ -17,4 +17,4 @@
   .records <demon name>
   
 ## Contacts
-  ⚠️ For any bugs or other stuff that should be changed DM me on discord: **lyt1x#1309**
+  ⚠️ For any bugs or other stuff that should be changed DM me on Discord: **lyt1x#1309**

@@ -395,7 +395,8 @@ async def player(ctx, *, playerr=None):
                     nationality = f':flag_{test["data"]["nationality"]["country_code"].lower()}:'
                 ban = ''
                 if test["data"]["banned"] == True:
-                    ban = ":warning: This account is banned on pointercrate"
+                    ban = """**:warning: This account is banned on pointercrate** 
+*(that means you can only see their verified demons)*\n"""
                 urlll = f'https://pointercrate.com/api/v1/players/ranking/?name_contains={playerr}'
                 rrr = requests.get(urlll)
                 rank = 'None'

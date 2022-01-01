@@ -54,7 +54,7 @@ async def help(ctx):
 
 .profile <ping whose profile you want to open, if yours - then type nothing>
 
-.edit youtube_channel <link> или же .edit pointercrate <pointercrate name>
+.edit youtube_channel <link> or .edit pointercrate <pointercrate name>
 
 .top <after which place I should sent the top players>
 

@@ -54,7 +54,7 @@ async def help(ctx):
 
 .profile <ping whose profile you want to open, if yours - then type nothing>
 
-.edit youtube_channel <link> or .edit pointercrate <pointercrate name>
+.edit youtube_channel <link> или же .edit pointercrate <pointercrate name>
 
 .top <after which place I should sent the top players>
 
@@ -378,113 +378,116 @@ async def player(ctx, *, playerr=None):
         try:
             url = f'https://pointercrate.com/api/v1/players?name={playerr}'
             r = requests.get(url)
-            text = r.text.replace('[', '')
-            text = text.replace(']', '')
-            text = json.loads(text)
-            playerr = text["name"]
-            id = text["id"]
-            urll = f'https://pointercrate.com/api/v1/players/{id}'
-            rr = requests.get(urll)
-            test = json.loads(rr.text)
-            if test["data"]["nationality"] == None:
-                nationality = 'None'
+            if r.text == "[]":
+                await ctx.send(f"No one has the name **{playerr}** in pointercrate")
             else:
-                nationality = f':flag_{test["data"]["nationality"]["country_code"].lower()}:'
-            ban = ''
-            if test["data"]["banned"] == True:
-                ban = ":warning: This account is banned on pointercrate"
-            urlll = f'https://pointercrate.com/api/v1/players/ranking/?name_contains={playerr}'
-            rrr = requests.get(urlll)
-            rank = 'None'
-            score = 0
-            for i in json.loads(rrr.text):
-                if i["name"] == playerr:
-                    rank = i["rank"]
-                    score = i["score"]
-                    break
-            completed = ''''''
-            progresses = ''''''
-            verified = ''''''
-            hardestnumber = 100000
-            hardestid = 0
-            for i in test["data"]["records"]:
-                if i["progress"] != 100:
-                    if i["demon"]["position"] < 4:
-                        progresses += f'**{i["demon"]["name"]} ({i["progress"]}%) - #{i["demon"]["position"]} :hot_face: **\n'
-                    elif i["demon"]["position"] < 11:
-                        progresses += f'**{i["demon"]["name"]} ({i["progress"]}%) - #{i["demon"]["position"]} :smiling_imp: **\n'
-                    elif i["demon"]["position"] < 26:
-                        progresses += f'**{i["demon"]["name"]} ({i["progress"]}%) - #{i["demon"]["position"]} :fire: **\n'
-                    elif i["demon"]["position"] < 76:
-                        progresses += f'**{i["demon"]["name"]} ({i["progress"]}%) - #{i["demon"]["position"]}**\n'
-                    elif i["demon"]["position"] < 151:
-                        progresses += f'{i["demon"]["name"]} ({i["progress"]}%) - #{i["demon"]["position"]}\n'
-                    else:
-                        progresses += f'*{i["demon"]["name"]} ({i["progress"]}%) - #{i["demon"]["position"]}*\n'
+                text = r.text.replace('[', '')
+                text = text.replace(']', '')
+                text = json.loads(text)
+                playerr = text["name"]
+                id = text["id"]
+                urll = f'https://pointercrate.com/api/v1/players/{id}'
+                rr = requests.get(urll)
+                test = json.loads(rr.text)
+                if test["data"]["nationality"] == None:
+                    nationality = 'None'
                 else:
-                    if i["demon"]["position"] < hardestnumber:
-                        hardestnumber = int(i["demon"]["position"])
-                        hardestid = int(i["demon"]["id"])
-                    if i["demon"]["position"] < 4:
-                        completed += f'**{i["demon"]["name"]} - #{i["demon"]["position"]} :hot_face: **\n'
-                    elif i["demon"]["position"] < 11:
-                        completed += f'**{i["demon"]["name"]} - #{i["demon"]["position"]} :smiling_imp: **\n'
-                    elif i["demon"]["position"] < 26:
-                        completed += f'**{i["demon"]["name"]} - #{i["demon"]["position"]} :fire: **\n'
-                    elif i["demon"]["position"] < 76:
-                        completed += f'**{i["demon"]["name"]} - #{i["demon"]["position"]}**\n'
-                    elif i["demon"]["position"] < 151:
-                        completed += f'{i["demon"]["name"]} - #{i["demon"]["position"]}\n'
+                    nationality = f':flag_{test["data"]["nationality"]["country_code"].lower()}:'
+                ban = ''
+                if test["data"]["banned"] == True:
+                    ban = ":warning: This account is banned on pointercrate"
+                urlll = f'https://pointercrate.com/api/v1/players/ranking/?name_contains={playerr}'
+                rrr = requests.get(urlll)
+                rank = 'None'
+                score = 0
+                for i in json.loads(rrr.text):
+                    if i["name"] == playerr:
+                        rank = i["rank"]
+                        score = i["score"]
+                        break
+                completed = ''''''
+                progresses = ''''''
+                verified = ''''''
+                hardestnumber = 100000
+                hardestid = 0
+                for i in test["data"]["records"]:
+                    if i["progress"] != 100:
+                        if i["demon"]["position"] < 4:
+                            progresses += f'**{i["demon"]["name"]} ({i["progress"]}%) - #{i["demon"]["position"]} :hot_face: **\n'
+                        elif i["demon"]["position"] < 11:
+                            progresses += f'**{i["demon"]["name"]} ({i["progress"]}%) - #{i["demon"]["position"]} :smiling_imp: **\n'
+                        elif i["demon"]["position"] < 26:
+                            progresses += f'**{i["demon"]["name"]} ({i["progress"]}%) - #{i["demon"]["position"]} :fire: **\n'
+                        elif i["demon"]["position"] < 76:
+                            progresses += f'**{i["demon"]["name"]} ({i["progress"]}%) - #{i["demon"]["position"]}**\n'
+                        elif i["demon"]["position"] < 151:
+                            progresses += f'{i["demon"]["name"]} ({i["progress"]}%) - #{i["demon"]["position"]}\n'
+                        else:
+                            progresses += f'*{i["demon"]["name"]} ({i["progress"]}%) - #{i["demon"]["position"]}*\n'
                     else:
-                        completed += f'*{i["demon"]["name"]} - #{i["demon"]["position"]}*\n'
-            for i in test["data"]["verified"]:
-                if i["position"] < hardestnumber:
-                    hardestnumber = int(i["position"])
-                    hardestid = int(i["id"])
-                if i["position"] < 4:
-                    verified += f'**{i["name"]} - #{i["position"]} :hot_face: **\n'
-                elif i["position"] < 11:
-                    verified += f'**{i["name"]} - #{i["position"]} :smiling_imp: **\n'
-                elif i["position"] < 26:
-                    verified += f'**{i["name"]} - #{i["position"]} :fire: **\n'
-                elif i["position"] < 76:
-                    verified += f'**{i["name"]} - #{i["position"]}**\n'
-                elif i["position"] < 151:
-                    verified += f'{i["name"]} - #{i["position"]}\n'
+                        if i["demon"]["position"] < hardestnumber:
+                            hardestnumber = int(i["demon"]["position"])
+                            hardestid = int(i["demon"]["id"])
+                        if i["demon"]["position"] < 4:
+                            completed += f'**{i["demon"]["name"]} - #{i["demon"]["position"]} :hot_face: **\n'
+                        elif i["demon"]["position"] < 11:
+                            completed += f'**{i["demon"]["name"]} - #{i["demon"]["position"]} :smiling_imp: **\n'
+                        elif i["demon"]["position"] < 26:
+                            completed += f'**{i["demon"]["name"]} - #{i["demon"]["position"]} :fire: **\n'
+                        elif i["demon"]["position"] < 76:
+                            completed += f'**{i["demon"]["name"]} - #{i["demon"]["position"]}**\n'
+                        elif i["demon"]["position"] < 151:
+                            completed += f'{i["demon"]["name"]} - #{i["demon"]["position"]}\n'
+                        else:
+                            completed += f'*{i["demon"]["name"]} - #{i["demon"]["position"]}*\n'
+                for i in test["data"]["verified"]:
+                    if i["position"] < hardestnumber:
+                        hardestnumber = int(i["position"])
+                        hardestid = int(i["id"])
+                    if i["position"] < 4:
+                        verified += f'**{i["name"]} - #{i["position"]} :hot_face: **\n'
+                    elif i["position"] < 11:
+                        verified += f'**{i["name"]} - #{i["position"]} :smiling_imp: **\n'
+                    elif i["position"] < 26:
+                        verified += f'**{i["name"]} - #{i["position"]} :fire: **\n'
+                    elif i["position"] < 76:
+                        verified += f'**{i["name"]} - #{i["position"]}**\n'
+                    elif i["position"] < 151:
+                        verified += f'{i["name"]} - #{i["position"]}\n'
+                    else:
+                        verified += f'*{i["name"]} - #{i["position"]}*\n'
+                if completed == '':
+                    completed = 'None\n'
+                if verified == '':
+                    verified = 'None\n'
+                if progresses == '':
+                    progresses = 'None\n'
+                if hardestid != 0:
+                    hardest = f'https://pointercrate.com/api/v2/demons/{hardestid}'
+                    harddest = requests.get(hardest)
+                    htext = json.loads(harddest.text)
+                    hardest = f'{htext["data"]["name"]} - #{htext["data"]["position"]}'
                 else:
-                    verified += f'*{i["name"]} - #{i["position"]}*\n'
-            if completed == '':
-                completed = 'None\n'
-            if verified == '':
-                verified = 'None\n'
-            if progresses == '':
-                progresses = 'None\n'
-            if hardestid != 0:
-                hardest = f'https://pointercrate.com/api/v2/demons/{hardestid}'
-                harddest = requests.get(hardest)
-                htext = json.loads(harddest.text)
-                hardest = f'{htext["data"]["name"]} - #{htext["data"]["position"]}'
-            else:
-                hardest = 'None'
-            dataa = f'''
-        {ban}
-Player: {playerr}
-Country: {nationality}
-Demonlist rank: {rank}
-Demonlist score: {round(float(score),2)}
-
-`Demons completed`: 
-{completed}
-Progress on: 
-{progresses}
-Demons verified:
-{verified}
-**Hardest demon**:
-{hardest}
-        '''
-            emb = discord.Embed(description=dataa, color=0x73ffdb)
-            await ctx.send(embed=emb)
-            print(f'{ctx.guild}, #{ctx.channel}, {ctx.author}, .player {playerr}')
+                    hardest = 'None'
+                dataa = f'''
+            {ban}
+    Name: {playerr}
+    Country: {nationality}
+    Demonlist rank: {rank}
+    Demonlist score: {round(float(score),2)}
+    
+    `Demons completed`: 
+    {completed}
+    Progress on: 
+    {progresses}
+    Demons verified:
+    {verified}
+    **Hardest demon**:
+    {hardest}
+            '''
+                emb = discord.Embed(description=dataa, color=0x73ffdb)
+                await ctx.send(embed=emb)
+                print(f'{ctx.guild}, #{ctx.channel}, {ctx.author}, .player {playerr}')
         except Exception as e:
             await ctx.send(
                 f'I got an error, I think you just sent a wrong nickname **(or this guy has too much completed demons (Luqualizer for example))**, error code: {e}'

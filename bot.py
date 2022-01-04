@@ -5,10 +5,8 @@ from discord.ext.commands import Bot
 from discord import Activity, ActivityType
 import requests
 import json
-import asyncio
 import random
 from colorama import init, Fore, Back, Style
-from math import exp, log
 
 init(convert=True)
 intents = discord.Intents.default()
@@ -25,25 +23,6 @@ with open('token.txt', 'r') as f:
 async def on_message(message):
     if message.author.bot:
         return
-    # if message.author.id == 283973928014184450:
-    # if random.randint(1,2) == 2:
-    # await message.channel.send('<@283973928014184450> https://youtu.be/dQw4w9WgXcQ')
-    # return
-    # else:
-    # print('gg')
-    # if message.author.id == 854623342711930910:
-    # if random.randint(1,2) == 2:
-    # await message.channel.send('<@854623342711930910> https://cdn.discordapp.com/attachments/878916911415582761/887014182053089361/transtw.mp4')
-    # return
-    # else:
-    # print('gg')
-    # if message.author.id == 450637380555374594:
-    # a = random.randint(1,3)
-    # if a == 2:
-    # await message.channel.send('<@450637380555374594> https://cdn.discordapp.com/attachments/885098980344733727/927268796731895838/video.mp4')
-    # return
-    # else:
-    # print(a)
     if message.guild is None:
         print(
             f'{Fore.GREEN}{message.author}{Fore.RESET} sent me something in dms, his message: {Fore.CYAN}{message.content}{Fore.RESET}'
@@ -64,34 +43,6 @@ async def on_ready():
     print('[=========================================================================================]')
     print('')
     # await Bot.change_presence(activity= discord.Streaming(name="lyt1xxx",url='https://www.twitch.tv/lyt1x'))
-
-
-@Bot.command()
-async def hazze(ctx):
-    if ctx.message.author.id == 736345968429105224:
-        for i in range(30):
-            a = random.randint(1, 385)
-            url = f'https://pointercrate.com/api/v2/demons/{a}'
-            r = requests.get(url)
-            data = json.loads(r.text)
-            try:
-                await ctx.send(f'<@450637380555374594> А у тебя на {data["data"]["name"]} скок?')
-            except Exception as e:
-                await ctx.send(
-                    f'<@450637380555374594> а у тебя на :transgender_flag: скок, айди лвла с которым произошёл этот так скажем баг: {a}')
-            await asyncio.sleep(0.2)
-    else:
-        await ctx.send('этой коммандой может пользоваться только <@736345968429105224> а ты ЛОЩ')
-
-
-@Bot.command()
-async def vaize(ctx):
-    if ctx.message.author.id == 736345968429105224:
-        for i in range(300):
-            await ctx.send('<@572835658163421184> ПОШЛИ ПАЛЛЕТЫ АБУЗИТЬ ДАУН БЛДЯТЬ')
-            await asyncio.sleep(0.1)
-    else:
-        await ctx.send('этой коммандой может пользоваться только <@736345968429105224> и линел а ты ЛОЩ')
 
 
 @Bot.command()
@@ -120,7 +71,7 @@ async def records(ctx, *, name=None):
         if None == None:
             if name == None:
                 await ctx.send('You have to use .records <demon name>')
-            elif (name == "Bloodbath") or (name == "bloodbath"):
+            elif name == "Bloodbath":
                 recordss = f''':flag_ru: lyt1x - **104%**
         :transgender_flag: sailisy - **15%**'''
                 color = discord.Color.from_rgb(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
@@ -148,15 +99,12 @@ async def records(ctx, *, name=None):
                 for i in data["data"]["records"]:
                     j += 1
                     if j % 25 == 0:
-                        await ctx.send(f'Checking number {j}, {i["player"]["name"]}')
+                        await ctx.send(f'Чекаю номер {j}, {i["player"]["name"]}')
                     if i["nationality"] == None:
                         nationality = ''
                     else:
                         nationality = f':flag_{i["nationality"]["country_code"].lower()}:'
-                    if i["progress"] < 100:
-                        recordss += f'{nationality} {i["player"]["name"]} - {i["progress"]}%\n'
-                    else:
-                        recordss += f'{nationality} {i["player"]["name"]} - **{i["progress"]}%**\n'
+                    recordss += f'{nationality} {i["player"]["name"]} - **{i["progress"]}%**\n'
                 color = discord.Color.from_rgb(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
                 emb = discord.Embed(description=recordss, color=color)
                 await ctx.send(embed=emb)
@@ -423,65 +371,6 @@ async def country(ctx, *, country=None):
             f'Got an error, probably you sent a wrong country code (or nobody lives in that country), an example of a country code: RU (you can use lower letters), error code: {e}')
 
 
-# @Bot.command()
-# async def progress(ctx, level=None, progress=None):
-# if (level == None) or (progress == None):
-# await ctx.send("You have to use **.progress <level name> <your progress>")
-# else:
-
-
-@Bot.command()
-async def difference(ctx, *, name=None):
-    try:
-        if name == None:
-            await ctx.send('you have to use **.difference <demon name>**')
-        else:
-            data = None
-            url = f'https://pointercrate.com/api/v2/demons?name_contains={name}'
-            r = requests.get(url)
-            for i in json.loads(r.text):
-                if i["name"].lower() == name.lower():
-                    data = i
-                    break
-            text = r.text.replace('[', '')
-            text = text.replace(']', '')
-            if data == None:
-                data = json.loads(text)
-            position = int(data["position"])
-
-            def score_old(position):
-                if (125 < position) & (position <= 150):
-                    return 150 * exp((1 - position) * log(1 / 30) / (-149))
-                elif (50 < position) & (position <= 125):
-                    return 60 * (2.333 ** ((51 - position) * (log(30) / 99))) + 1.884
-                elif (20 < position) & (position <= 50):
-                    return -100 * (1.01327 ** (position - 26.489)) + 200
-                elif (0 < position) & (position <= 20):
-                    return 149.61 * (1.168 ** (1 - position)) + 100.39
-                else:
-                    return 0
-
-            def score_new(position):
-                if (55 < position) & (position <= 150):
-                    return 6.447 + 60 * (2 ** ((46.8 - position) * log(50) / 99))
-                elif (50 < position) & (position <= 55):
-                    return -100 * (1.01327 ** (position - 26.489)) + 200
-                else:
-                    return score_old(position)
-
-            description = f"""Очков дают сейчас: {round(float(score_old(position)), 2)}
-Очков будут давать после апдейта: {round(float(score_new(position)), 2)}
-"""
-            # print(f"Очков будут давать после апдейта: {round(float(score_new(position)), 2)}")
-            # print(f"Очков дают сейчас: {round(float(score_old(position)), 2)}")
-            color = discord.Color.from_rgb(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
-            emb = discord.Embed(description=description, color=color)
-            await ctx.send(embed=emb)
-            print(f'{ctx.guild}, #{ctx.channel}, {ctx.author}, .difference {name}')
-    except Exception as e:
-        await ctx.send(f'Got an error, code error: {e}')
-
-
 @Bot.command()
 async def player(ctx, *, playerr=None):
     if playerr == None:
@@ -579,34 +468,25 @@ async def player(ctx, *, playerr=None):
                     hardest = f'https://pointercrate.com/api/v2/demons/{hardestid}'
                     harddest = requests.get(hardest)
                     htext = json.loads(harddest.text)
-                    if htext["data"]["position"] < 4:
-                        hardest = f'**{htext["data"]["name"]} - #{htext["data"]["position"]} :hot_face: **\n'
-                    elif htext["data"]["position"] < 11:
-                        hardest = f'**{htext["data"]["name"]} - #{htext["data"]["position"]} :smiling_imp: **\n'
-                    elif htext["data"]["position"] < 26:
-                        hardest = f'**{htext["data"]["name"]} - #{htext["data"]["position"]} :fire: **\n'
-                    elif htext["data"]["position"] < 76:
-                        hardest = f'**{htext["data"]["name"]} - #{htext["data"]["position"]}**\n'
-                    elif htext["data"]["position"] < 151:
-                        hardest = f'{htext["data"]["name"]} - #{htext["data"]["position"]}\n'
-                    else:
-                        hardest = f'*{htext["data"]["name"]} - #{htext["data"]["position"]}*\n'
+                    hardest = f'{htext["data"]["name"]} - #{htext["data"]["position"]}'
                 else:
                     hardest = 'None'
-                dataa = f'''{ban}
-Name: {playerr}
-Country: {nationality}
-Demonlist rank: {rank}
-Demonlist score: {round(float(score), 2)}
+                dataa = f'''
+            {ban}
+    Name: {playerr}
+    Country: {nationality}
+    Demonlist rank: {rank}
+    Demonlist score: {round(float(score), 2)}
 
-`Demons completed`: 
-{completed}
-Progress on: 
-{progresses}
-Demons verified:
-{verified}
-**Hardest demon**:
-{hardest}'''
+    `Demons completed`: 
+    {completed}
+    Progress on: 
+    {progresses}
+    Demons verified:
+    {verified}
+    **Hardest demon**:
+    {hardest}
+            '''
                 emb = discord.Embed(description=dataa, color=0x73ffdb)
                 await ctx.send(embed=emb)
                 print(f'{ctx.guild}, #{ctx.channel}, {ctx.author}, .player {playerr}')
@@ -617,4 +497,3 @@ Demons verified:
 
 
 Bot.run(token)
-#what
